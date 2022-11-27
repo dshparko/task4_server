@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 
 import moment from "moment";
+
 export const register = (req, res) => {
     //CHECK USER IF EXISTS
 
@@ -27,8 +28,8 @@ export const register = (req, res) => {
             req.body.email,
             hashedPassword,
             status,
-            moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-            moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+            String(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")),
+            String(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")),
         ];
 
         db.query(q, [values], (err, data) => {
@@ -56,6 +57,17 @@ export const login = (req, res) => {
 
         const token = jwt.sign({id: data[0].id}, "secretkey");
 
+        const date = String(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"))+" ";
+
+        console.log();
+        console.log(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"))+" ";
+        const m = `UPDATE users SET lastLoginTime = NOW() WHERE id = ${data[0].id}`;
+        db.query(m, (err, data) => {
+            if (err) return console.error(err.message);
+
+            console.log("Updated Row(s):", data.affectedRows);
+
+        });
         const {password, ...others} = data[0];
 
         res
@@ -79,6 +91,6 @@ export const logout = (req, res) => {
 };
 
 
-export const getUserInfo=(req,res)=>{
+export const getUserInfo = (req, res) => {
 
 };

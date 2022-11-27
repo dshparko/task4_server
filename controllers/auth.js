@@ -56,11 +56,6 @@ export const login = (req, res) => {
         if (!checkPassword) return res.status(400).json("Wrong password or email!");
 
         const token = jwt.sign({id: data[0].id}, "secretkey");
-
-        const date = String(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"))+" ";
-
-        console.log();
-        console.log(moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"))+" ";
         const m = `UPDATE users SET lastLoginTime = NOW() WHERE id = ${data[0].id}`;
         db.query(m, (err, data) => {
             if (err) return console.error(err.message);

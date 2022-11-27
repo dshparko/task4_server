@@ -3,7 +3,6 @@ import {blockUser, deleteUser, getUser, unblockUser} from "../controllers/user.j
 
 const router = express.Router();
 
-router.get("/test",getUser);
 
 router.get('/data', getUser);
 router.delete('/delete/:id',deleteUser);

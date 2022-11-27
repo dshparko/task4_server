@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 import jwt from "jsonwebtoken";
 
+
 import moment from "moment";
 export const register = (req, res) => {
     //CHECK USER IF EXISTS

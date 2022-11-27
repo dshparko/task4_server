@@ -1,4 +1,6 @@
 import {db} from "../connect.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const getUser=(req,res)=>{
 
@@ -13,13 +15,35 @@ export const getUser=(req,res)=>{
 
 }
 
-export const deleteUser=(res,req)=>{
-   console.log("delete")
+export const deleteUser=(req,res)=>{
+   const  {id}  = req.params;
+  // console.log(id);
+   const q = `DELETE FROM users WHERE id = ${id}`;
+
+   db.query(q, (err, data) => {
+      if (err) return console.error(err.message);
+      res.status(200).send(data);
+     console.log("Deleted Row(s):", data.affectedRows);
+
+   });
+
+
 }
-export const blockUser=(res,req)=>{
-   console.log("block")
+export const blockUser=(req,res)=>{
+   const { id } = req.params.id;
+
+   db.query(q, (err, data) => {
+      if (err) return console.error(err.message);
+      res.status(200).send(data);
+      console.log("Deleted Row(s):", data.affectedRows);
+
+   });
 }
 
-export const unblockUser=(res,req)=>{
-   console.log("hello")
+export const unblockUser=(req,res)=>{
+   const q = "SELECT * FROM users WHERE email = ? AND status ='unblock'";
+
+   db.query(q, [req.body.email], (err, data) => {
+
+   });
 }

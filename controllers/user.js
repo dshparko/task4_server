@@ -30,20 +30,27 @@ export const deleteUser=(req,res)=>{
 
 }
 export const blockUser=(req,res)=>{
-   const { id } = req.params.id;
+   const { id } = req.params;
 
+
+
+   const q = `UPDATE users SET status='block' WHERE id = ${id}`;
    db.query(q, (err, data) => {
       if (err) return console.error(err.message);
       res.status(200).send(data);
-      console.log("Deleted Row(s):", data.affectedRows);
+      console.log("Updated Row(s):", data.affectedRows);
 
    });
 }
 
 export const unblockUser=(req,res)=>{
-   const q = "SELECT * FROM users WHERE email = ? AND status ='unblock'";
+    const { id } = req.params;
 
-   db.query(q, [req.body.email], (err, data) => {
+    const q = `UPDATE users SET status='unblock' WHERE id = ${id}`;
+    db.query(q, (err, data) => {
+        if (err) return console.error(err.message);
+        res.status(200).send(data);
+        console.log("Updated Row(s):", data.affectedRows);
 
-   });
+    });
 }

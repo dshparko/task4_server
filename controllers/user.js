@@ -1,6 +1,4 @@
 import {db} from "../connect.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 export const getUser=(req,res)=>{
 
@@ -16,26 +14,25 @@ export const getUser=(req,res)=>{
 }
 
 export const deleteUser=(req,res)=>{
-   const  {id}  = req.params;
-  // console.log(id);
-   const q = `DELETE FROM users WHERE id = ${id}`;
+    console.log(req.params);
+   const  id  = req.params.id;
+   const q = "DELETE FROM users WHERE id = ?";
 
-   db.query(q, (err, data) => {
+   db.query(q,[id], (err, data) => {
       if (err) return console.error(err.message);
-      res.status(200).send(data);
-     console.log("Deleted Row(s):", data.affectedRows);
+
+       console.log("Deleted Row(s):", data.affectedRows);
+       res.status(200).send(data);
 
    });
 
 
 }
 export const blockUser=(req,res)=>{
-   const { id } = req.params;
+   const  id = req.params.id;
 
-
-
-   const q = `UPDATE users SET status='block' WHERE id = ${id}`;
-   db.query(q, (err, data) => {
+   const q = "UPDATE users SET status='block' WHERE id = ?";
+   db.query(q, [id],(err, data) => {
       if (err) return console.error(err.message);
       res.status(200).send(data);
       console.log("Updated Row(s):", data.affectedRows);
@@ -44,10 +41,10 @@ export const blockUser=(req,res)=>{
 }
 
 export const unblockUser=(req,res)=>{
-    const { id } = req.params;
+    const  id  = req.params.id;
 
-    const q = `UPDATE users SET status='unblock' WHERE id = ${id}`;
-    db.query(q, (err, data) => {
+    const q = `UPDATE users SET status='unblock' WHERE id = ?`;
+    db.query(q,[id], (err, data) => {
         if (err) return console.error(err.message);
         res.status(200).send(data);
         console.log("Updated Row(s):", data.affectedRows);
